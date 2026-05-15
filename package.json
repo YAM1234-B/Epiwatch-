@@ -1,7 +1,20 @@
 {
+  "name": "epiwatch",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "leaflet": "^1.9.4",
-    "lucide-react": "^1.7.0",
+    "lucide-react": "^0.517.0",
     "react-leaflet": "^5.0.0"
+  },
+  "devDependencies": {
+    "vite": "^8.0.12"
   }
 }

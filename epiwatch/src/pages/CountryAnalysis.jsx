@@ -227,6 +227,12 @@ const CountUp = ({ to, isDecimals, colorClass }) => {
 
 export default function CountryAnalysis() {
   const [selectedCountry, setSelectedCountry] = useState('india');
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const filteredCountries = Object.entries(COUNTRY_STATIC).filter(
+  ([, data]) =>
+    data.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   const [countryData, setCountryData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -460,18 +466,35 @@ export default function CountryAnalysis() {
           </div>
 
           {/* 2. COUNTRY SELECTOR */}
-          <div className="relative w-max">
-            <select
+          <div className="flex flex-col gap-3 w-full max-w-sm">
+            {/* Search Input */}
+            <input
+            type="text"
+            placeholder="Search countries..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full bg-white dark:bg-[#0f172a] border border-slate-300 dark:border-slate-600/50 text-slate-900 dark:text-white px-[14px] py-[10px] rounded-[10px] outline-none font-medium focus:border-blue-500"
+            />
+            {/* Dropdown */}
+            <div className="relative w-full">
+              <select
               value={selectedCountry}
               onChange={(e) => setSelectedCountry(e.target.value)}
-              className="appearance-none bg-white dark:bg-[#0f172a] border border-slate-300 dark:border-slate-600/50 text-slate-900 dark:text-white px-[14px] py-[10px] pr-10 rounded-[10px] min-w-[280px] outline-none font-medium focus:border-slate-200/60 transition-colors duration-200 cursor-pointer"
-            >
-              {Object.entries(COUNTRY_STATIC).map(([key, data]) => (
-                <option key={key} value={key}>{data.name}</option>
-              ))}
-            </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+              className="appearance-none bg-white dark:bg-[#0f172a] border border-slate-300 dark:border-slate-600/50 text-slate-900 dark:text-white px-[14px] py-[10px] pr-10 rounded-[10px] w-full outline-none font-medium focus:border-blue-500 cursor-pointer"
+              >
+                {filteredCountries.length > 0 ? (
+                  filteredCountries.map(([key, data]) => (
+                  <option key={key} value={key}>
+                    {data.name}
+                    </option>
+                  ))
+                ) : (
+                  <option disabled>No countries found</option>
+                )}
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
               <ChevronDown className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+              </div>
             </div>
           </div>
 
